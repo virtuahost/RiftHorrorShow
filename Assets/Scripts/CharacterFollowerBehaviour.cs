@@ -24,7 +24,7 @@ public class CharacterFollowerBehaviour : MonoBehaviour {
 		agent.SetDestination (player.position);
 		float dist=(player.position - transform.position).magnitude;
 		breathingSound.volume=(float)0.4/dist;
-		Debug.Log("Volume:"+0.2/dist);
+		//Debug.Log("Volume:"+0.2/dist);
 		if (agent.velocity.sqrMagnitude < 1) {
 			//Debug.Log("CluseBy");
 			if (footStepsSound.isPlaying) {
