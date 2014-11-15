@@ -13,8 +13,8 @@ public class ScaryCorridorBehaviour : MonoBehaviour {
 	private Transform rightWall;
 	private Transform soundRoom;
 	private ParticleSystem leftWallParticles;
-	private TBE_3DCore.TBE_Source leftWallAudio;
-	private TBE_3DCore.TBE_Source rightWallAudio;
+	private AudioSource leftWallAudio;
+	private AudioSource rightWallAudio;
 	private ParticleSystem rightWallParticles;
 	private float initWallSeperation;
 	private bool isRunning = false;
@@ -30,8 +30,8 @@ public class ScaryCorridorBehaviour : MonoBehaviour {
 		initWallSeperation=rightWall.localPosition.x - leftWall.localPosition.x;
 		leftWallParticles=leftWall.FindChild("leftWallEmitter").particleSystem;
 		rightWallParticles=rightWall.FindChild("rightWallEmitter").particleSystem;
-		leftWallAudio=leftWall.FindChild("leftWallAudio").GetComponent<TBE_3DCore.TBE_Source>();
-		rightWallAudio=rightWall.FindChild("rightWallAudio").GetComponent<TBE_3DCore.TBE_Source>();
+		leftWallAudio=leftWall.FindChild("leftWallAudio").GetComponent<AudioSource>();
+		rightWallAudio=rightWall.FindChild("rightWallAudio").GetComponent<AudioSource>();
 		leftWallParticles.Stop();
 		rightWallParticles.Stop();
 		
