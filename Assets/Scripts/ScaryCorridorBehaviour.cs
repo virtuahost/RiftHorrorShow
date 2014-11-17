@@ -104,7 +104,7 @@ public class ScaryCorridorBehaviour : MonoBehaviour {
 			case 3:
 				if(createTImeStamp == 0f || (Time.time - createTImeStamp) > SecondsUntilDestroy)
 				{
-					Instantiate(pumpkin,Vector3.zero,new Quaternion(0,0,0,0));
+					//Instantiate(pumpkin,Vector3.zero,new Quaternion(0,0,0,0));
 					//pumpkin.SetActive(true);
 		            createTImeStamp = Time.time;					            
 					pumpkin.audio.Play();
