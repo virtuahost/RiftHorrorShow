@@ -4,6 +4,7 @@ using System.Collections;
 public class PlayerCheckerScript : MonoBehaviour {
 
 	public bool isPlayerInside=false;
+	public int scareMode = -1;
 
 	// Use this for initialization
 	void Start () {

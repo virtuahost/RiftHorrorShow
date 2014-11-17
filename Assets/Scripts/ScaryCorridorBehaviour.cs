@@ -7,6 +7,9 @@ public class ScaryCorridorBehaviour : MonoBehaviour {
 	public float minSanity = 0.0f;
 	public float wallSpeed;
 	public GameObject roomTrigger;
+	public GameObject monster;
+	public GameObject pumpkin;
+	public GameObject skeleton;
 	
 	private float currentSanity = 100.0f;
 	private Transform leftWall;
@@ -21,6 +24,8 @@ public class ScaryCorridorBehaviour : MonoBehaviour {
 	private bool stopRunning=false;
 	private bool playSound=false;
 	private float soundPlayStart;
+	private float createTImeStamp = 0f;
+	private float SecondsUntilDestroy = 10f;
 	// Use this for initialization
 	void Start () {
 		leftWall=transform.FindChild("leftWall");
@@ -74,10 +79,45 @@ public class ScaryCorridorBehaviour : MonoBehaviour {
 					}
 				}
 			}
+			SetScare();
 		}
 	
 	}
-	
+
+
+	public void SetScare()
+	{
+		int scareSelection=roomTrigger.GetComponent<PlayerCheckerScript>().scareMode;
+		if (scareSelection != -1) {
+			switch(scareSelection)
+			{
+			case 1:
+				//monster.audio.Play();
+				//skeleton.audio.Stop();
+				//pumpkin.audio.Stop();
+				break;
+			case 2:
+				//skeleton.audio.Play();
+				//monster.audio.Stop();
+				//pumpkin.audio.Stop();
+				break;
+			case 3:
+				if(createTImeStamp == 0f || (Time.time - createTImeStamp) > SecondsUntilDestroy)
+				{
+					Instantiate(pumpkin,Vector3.zero,new Quaternion(0,0,0,0));
+					//pumpkin.SetActive(true);
+		            createTImeStamp = Time.time;					            
+					pumpkin.audio.Play();
+		        }
+				//monster.audio.Stop();
+				//skeleton.audio.Stop();
+				break;
+			default:
+				break;
+			}
+		}
+	}
+
 //	public void setSanity(float sanity){
 //		if(sanity!=currentSanity){
 //			if(!leftWallParticles.isPlaying){
