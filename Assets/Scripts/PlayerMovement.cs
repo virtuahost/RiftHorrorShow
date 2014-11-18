@@ -32,19 +32,28 @@ public class PlayerMovement : MonoBehaviour {
 
 	// Flashlight
 	public Light flashLight;
-		
+
+	// Flag for first initialization
 	private bool initialized = false;
 
+	// Sanity Script
+	private SanitySetterScript sanity;
+
 	// Movement/Animation values
-	Vector3 nextMovement;
-	Vector3 prevLocation;
-	float nextRot;
-	float prevRot;
+	private Vector3 nextMovement;
+	private Vector3 prevLocation;
+	private float nextRot;
+	private float prevRot;
+
+	// Reference to game controller
+	private GameController game;
 	
 	// Use this for initialization
 	void Start () {
 		horizontalAcceleration = 10;
 		prevLocation = transform.position;
+		sanity = GameObject.Find ("sanitySetter").GetComponent<SanitySetterScript> ();
+		game = GameObject.Find ("GameController").GetComponent<GameController> ();
 	}
 	
 	// Update is called once per frame
@@ -62,11 +71,12 @@ public class PlayerMovement : MonoBehaviour {
 	
 	// Physics Update
 	void FixedUpdate() {
-		
-		calculateMovement ();
-		movePlayer ();
-		//Before Mecanim
-		animatePlayerEarly ();
+		if (game.isRunning()) {
+			calculateMovement ();
+			movePlayer ();
+			//Before Mecanim
+			animatePlayerEarly ();
+		}
 		
 	}
 	
@@ -139,6 +149,19 @@ public class PlayerMovement : MonoBehaviour {
 	// After Mecanim
 	private void animatePlayerLate(){
 		
+	}
+
+	// Triggers
+	void OnTriggerEnter(Collider trigger){
+
+		// Alpha Sanity Checkpoints
+		if (trigger.tag == "SanityCheckpoint") {
+			SanityCheckpoint cp = trigger.GetComponent<SanityCheckpoint>();
+			if(sanity != null && cp != null){
+				sanity.sanity = cp.sanity;
+			}
+		}
+
 	}
 	
 }

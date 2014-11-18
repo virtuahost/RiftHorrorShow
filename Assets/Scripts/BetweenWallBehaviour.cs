@@ -5,9 +5,11 @@ public class BetweenWallBehaviour : MonoBehaviour {
 
 	public Transform startPoint;
 	public Transform endPoint;
+	
+	private Material stonesTexture;
 	// Use this for initialization
 	void Start () {
-	
+
 	}
 	
 	// Update is called once per frame
