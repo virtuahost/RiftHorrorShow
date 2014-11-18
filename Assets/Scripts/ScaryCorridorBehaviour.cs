@@ -25,7 +25,8 @@ public class ScaryCorridorBehaviour : MonoBehaviour {
 	private bool playSound=false;
 	private float soundPlayStart;
 	private float createTImeStamp = 0f;
-	private float SecondsUntilDestroy = 10f;
+	private float SecondsUntilCreate = 20f;
+	private GameObject player;
 	// Use this for initialization
 	void Start () {
 		leftWall=transform.FindChild("leftWall");
@@ -37,6 +38,7 @@ public class ScaryCorridorBehaviour : MonoBehaviour {
 		rightWallParticles=rightWall.FindChild("rightWallEmitter").particleSystem;
 		leftWallAudio=leftWall.FindChild("leftWallAudio").GetComponent<AudioSource>();
 		rightWallAudio=rightWall.FindChild("rightWallAudio").GetComponent<AudioSource>();
+		player = GameObject.FindWithTag ("playerForward").gameObject;	
 		leftWallParticles.Stop();
 		rightWallParticles.Stop();
 		
@@ -102,12 +104,15 @@ public class ScaryCorridorBehaviour : MonoBehaviour {
 				//pumpkin.audio.Stop();
 				break;
 			case 3:
-				if(createTImeStamp == 0f || (Time.time - createTImeStamp) > SecondsUntilDestroy)
-				{
-					//Instantiate(pumpkin,Vector3.zero,new Quaternion(0,0,0,0));
-					//pumpkin.SetActive(true);
+				if(createTImeStamp == 0f || (Time.time - createTImeStamp) > SecondsUntilCreate/currentSanity)
+				{					
+					pumpkin.SetActive(true);
+					Quaternion rotaPlay = player.transform.rotation;
+					Vector3 playerPos = new Vector3 (player.transform.position.x,1.7f,player.transform.position.z+10);
+					Instantiate(pumpkin,playerPos,rotaPlay);
 		            createTImeStamp = Time.time;					            
-					pumpkin.audio.Play();
+					//pumpkin.audio.Play();					
+					pumpkin.SetActive(false);
 		        }
 				//monster.audio.Stop();
 				//skeleton.audio.Stop();
