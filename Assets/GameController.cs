@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class GameController : MonoBehaviour {
 
@@ -34,6 +35,11 @@ public class GameController : MonoBehaviour {
 	private Color winColor;
 	private Color loseColor;
 
+	// Lights in the scene (used for fade)
+	private Light[] lights;
+	// Lights start values
+	private float[] lightStarts;
+
 	// Use this for initialization
 	void Start () {
 		running = true;
@@ -55,6 +61,7 @@ public class GameController : MonoBehaviour {
 		}
 
 		if (Input.GetKeyDown (KeyCode.L)) {
+			//findLights();
 			sanity.sanity = 0;
 		}
 		if (Input.GetKeyDown (KeyCode.K)) {
@@ -99,6 +106,10 @@ public class GameController : MonoBehaviour {
 				winColor.a += (1.0f/fadeTime/2.0f) * Time.deltaTime;
 				winLoseText.color = winColor;
 
+				for(int i = 0; i<lights.Length; i++){
+					lights[i].intensity -= (lightStarts[i]/fadeTime)*Time.deltaTime;
+				}
+
 			}
 		}
 	}
@@ -127,6 +138,7 @@ public class GameController : MonoBehaviour {
 	private void triggerLoss(){
 		setRunning (false);
 		lose = true;
+		findLights ();
 		lightStart = RenderSettings.ambientLight;
 		flashlightStart = flashlight.intensity;
 		winLoseText.text = "You Have Been Lost\nTo The Nightmare";
@@ -137,11 +149,28 @@ public class GameController : MonoBehaviour {
 	public void triggerWin(){
 		setRunning (false);
 		win = true;
+		findLights ();
 		lightStart = RenderSettings.ambientLight;
 		flashlightStart = flashlight.intensity;
 		winLoseText.text = "You Have Found Your Way\nBack To Reality";
 		winColor.a = 0;
 		winLoseText.color = winColor;
+	}
+
+	// Get the lights in the scene
+	private void findLights(){
+		Light[] temp = (Light[])GameObject.FindObjectsOfType(typeof(Light));
+		List<Light> output = new List<Light>();
+		for (int i = 0; i<temp.Length; i++) {
+			if(!temp[i].gameObject.name.Equals("flashlight")){
+				output.Add (temp[i]);
+			}
+		}
+		lights = output.ToArray ();
+		lightStarts = new float[lights.Length];
+		for(int i=0; i<lights.Length;i++){
+			lightStarts[i] = lights[i].intensity;
+		}
 	}
 
 }

@@ -47,13 +47,17 @@ public class PlayerMovement : MonoBehaviour {
 
 	// Reference to game controller
 	private GameController game;
-	
+
+	// Inventory
+	Inventory inventory;
+
 	// Use this for initialization
 	void Start () {
 		horizontalAcceleration = 10;
 		prevLocation = transform.position;
 		sanity = GameObject.Find ("sanitySetter").GetComponent<SanitySetterScript> ();
 		game = GameObject.Find ("GameController").GetComponent<GameController> ();
+		inventory = gameObject.GetComponent<Inventory> ();
 	}
 	
 	// Update is called once per frame
@@ -82,8 +86,10 @@ public class PlayerMovement : MonoBehaviour {
 	
 	// Final Update called
 	void LateUpdate() {
-		//After Mecanim
-		animatePlayerLate();
+		if(game.isRunning()){
+			//After Mecanim
+			animatePlayerLate();
+		}
 	}
 	
 	// Calculate the next movement with physics simulation
@@ -160,6 +166,18 @@ public class PlayerMovement : MonoBehaviour {
 			if(sanity != null && cp != null){
 				sanity.sanity = cp.sanity;
 			}
+		}
+
+		// Escape (win state)
+		if (trigger.tag == "Escape") {
+			game.triggerWin();
+		}
+
+		// Pickup
+		if (trigger.tag == "PickUp") {
+			PickUp p = trigger.gameObject.GetComponent<PickUp>();
+			inventory.addItem(p.id);
+			Destroy(trigger.gameObject);
 		}
 
 	}
