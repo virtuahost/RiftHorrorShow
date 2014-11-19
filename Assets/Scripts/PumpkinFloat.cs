@@ -23,7 +23,7 @@ public class PumpkinFloat : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void LateUpdate () {
 		float angleDelta = 0f;
 		
 		// check if value not 0 and tease the rotation towards it using angleDelta
