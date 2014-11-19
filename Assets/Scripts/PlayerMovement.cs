@@ -74,21 +74,17 @@ public class PlayerMovement : MonoBehaviour {
 	}
 	
 	// Physics Update
-	void FixedUpdate() {
+
+	// Final Update called
+	void LateUpdate() {
+			//After Mecanim
+			
 		if (game.isRunning()) {
+			animatePlayerLate();
 			calculateMovement ();
 			movePlayer ();
 			//Before Mecanim
 			animatePlayerEarly ();
-		}
-		
-	}
-	
-	// Final Update called
-	void LateUpdate() {
-		if(game.isRunning()){
-			//After Mecanim
-			animatePlayerLate();
 		}
 	}
 	
