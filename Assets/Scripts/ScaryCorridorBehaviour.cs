@@ -97,17 +97,20 @@ public class ScaryCorridorBehaviour : MonoBehaviour {
 		}else{
 				leftFinal=new Vector3(-initWallSeperation/2, 0, 0);
 				rightFinal=new Vector3(initWallSeperation/2, 0, 0);
-				if(leftWallParticles.isPlaying){
-					leftWallParticles.Stop();
-				}
-				if(rightWallParticles.isPlaying){
-					rightWallParticles.Stop();
-				}
-				if(leftWallAudio.isPlaying){
-					leftWallAudio.Stop();
-				}
-				if(rightWallAudio.isPlaying){
-					rightWallAudio.Stop();
+				if(!playSound)
+				{
+					if(leftWallParticles.isPlaying){
+						leftWallParticles.Stop();
+					}
+					if(rightWallParticles.isPlaying){
+						rightWallParticles.Stop();
+					}
+					if(leftWallAudio.isPlaying){
+						leftWallAudio.Stop();
+					}
+					if(rightWallAudio.isPlaying){
+						rightWallAudio.Stop();
+					}
 				}
 			
 		}
