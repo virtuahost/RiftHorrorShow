@@ -61,58 +61,41 @@ public class ScaryCorridorBehaviour : MonoBehaviour {
 			Debug.Log(leftWall.localPosition +" "+ rightWall.localPosition);
 			soundRoom.localScale = new Vector3((rightWall.localPosition.x - leftWall.localPosition.x)/initWallSeperation , 1, 1);
 		}
-		if(playerEntered)
+		if(!playerEntered)
 		{
-			if(playSound){
-				soundPlayStart=Time.time;
-				if(!leftWallParticles.isPlaying){
-					leftWallParticles.Play();
-				}
-				if(!rightWallParticles.isPlaying){
-					rightWallParticles.Play();
-				}
-				if(!leftWallAudio.isPlaying){
-					leftWallAudio.Play();
-				}
-				if(!rightWallAudio.isPlaying){
-					rightWallAudio.Play();
-				}
-			}else{
-				if(Time.time - soundPlayStart > 1)
-				{
-					if(leftWallParticles.isPlaying){
-						leftWallParticles.Stop();
-					}
-					if(rightWallParticles.isPlaying){
-						rightWallParticles.Stop();
-					}
-					if(leftWallAudio.isPlaying){
-						leftWallAudio.Stop();
-					}
-					if(rightWallAudio.isPlaying){
-						rightWallAudio.Stop();
-					}
-				}
+			leftFinal=new Vector3(-initWallSeperation/2, 0, 0);
+			rightFinal=new Vector3(initWallSeperation/2, 0, 0);
+		}
+		if(playSound){
+			soundPlayStart=Time.time;
+			if(!leftWallParticles.isPlaying){
+				leftWallParticles.Play();
+			}
+			if(!rightWallParticles.isPlaying){
+				rightWallParticles.Play();
+			}
+			if(!leftWallAudio.isPlaying){
+				leftWallAudio.Play();
+			}
+			if(!rightWallAudio.isPlaying){
+				rightWallAudio.Play();
 			}
 		}else{
-				leftFinal=new Vector3(-initWallSeperation/2, 0, 0);
-				rightFinal=new Vector3(initWallSeperation/2, 0, 0);
-				if(!playSound)
-				{
-					if(leftWallParticles.isPlaying){
-						leftWallParticles.Stop();
-					}
-					if(rightWallParticles.isPlaying){
-						rightWallParticles.Stop();
-					}
-					if(leftWallAudio.isPlaying){
-						leftWallAudio.Stop();
-					}
-					if(rightWallAudio.isPlaying){
-						rightWallAudio.Stop();
-					}
+			if(Time.time - soundPlayStart > 1)
+			{
+				if(leftWallParticles.isPlaying){
+					leftWallParticles.Stop();
 				}
-			
+				if(rightWallParticles.isPlaying){
+					rightWallParticles.Stop();
+				}
+				if(leftWallAudio.isPlaying){
+					leftWallAudio.Stop();
+				}
+				if(rightWallAudio.isPlaying){
+					rightWallAudio.Stop();
+				}
+			}
 		}
 	
 	}
@@ -132,4 +115,5 @@ public class ScaryCorridorBehaviour : MonoBehaviour {
 		}
 		
 	}
+	
 }
