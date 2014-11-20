@@ -23,8 +23,10 @@ public class PumpkinFloat : MonoBehaviour {
 	private bool playAnime = false;
 	private bool stopFloat = false;
 	private bool stopFloatMin = false;
+	private GameController game;
 	// Use this for initialization
 	void Start () {
+		game = GameObject.Find ("GameController").GetComponent<GameController> ();
 		agent = GetComponent<NavMeshAgent> ();
 		//startTime = Time.time; 
 		//laughAudio.audio.Play ();
@@ -38,6 +40,7 @@ public class PumpkinFloat : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+		if(game.isRunning()){
 		float angleDelta = 0f;
 		
 		// check if value not 0 and tease the rotation towards it using angleDelta
@@ -131,6 +134,7 @@ public class PumpkinFloat : MonoBehaviour {
 		//	laughAudio.audio.Stop ();
 		//	Destroy (this.gameObject);
 		//		}
+	}
 	}
 	void OnTriggerEnter(Collider objColl){
 		if (objColl.tag == "player") {

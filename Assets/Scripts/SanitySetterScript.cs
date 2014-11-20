@@ -25,7 +25,7 @@ public class SanitySetterScript : MonoBehaviour {
 	void Update () {
 	foreach(GameObject corr in c)
 		corr.GetComponent<ScaryCorridorBehaviour>().setSanity(sanity);
-	sanityBar.localScale = new Vector3(sanity/100,1,1);
+		sanityBar.localScale = new Vector3(sanity/100,1,1);
 	}
 	
 	private void findControllableLights(){
@@ -44,7 +44,7 @@ public class SanitySetterScript : MonoBehaviour {
 	private IEnumerator lightFlicker(){
 		for (int i = 0; i < lights.Length; i++) {
 			FlickerLight flicker = lights[i].gameObject.GetComponent<FlickerLight>();
-			flicker.flickerRate = 60 - (sanity/100.0f) * 59.67f; //Random.Range (5.0f,200.0f);
+			flicker.flickerRate = 30 - (sanity/100.0f) * 29.67f; //Random.Range (5.0f,200.0f);
 			//flicker.randomness = 100.0f - sanity;//Random.Range (0.0f,100.0f);
 		}
 		yield return new WaitForSeconds (delay);

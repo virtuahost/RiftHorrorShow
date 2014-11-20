@@ -51,6 +51,7 @@ public class GameController : MonoBehaviour {
 		winLoseText = GameObject.Find ("WinLoseText").GetComponent<TextMesh> ();
 		winColor = new Color (0,180,0,255);
 		loseColor = new Color (128,0,0,255);
+		findLights ();
 	}
 
 	// every frame
@@ -89,6 +90,11 @@ public class GameController : MonoBehaviour {
 				loseColor.a += (1.0f/fadeTime/2.0f) * Time.deltaTime;
 				winLoseText.color = loseColor;
 
+				for(int i = 0; i<lights.Length; i++){
+					if(lights[i] != null)
+						lights[i].intensity -= (lightStarts[i]*(1.0f/fadeTime))*Time.deltaTime;
+				}
+
 			}
 			// win state
 			else if(win){
@@ -107,7 +113,8 @@ public class GameController : MonoBehaviour {
 				winLoseText.color = winColor;
 
 				for(int i = 0; i<lights.Length; i++){
-					lights[i].intensity -= (lightStarts[i]/fadeTime)*Time.deltaTime;
+					if(lights[i] != null)
+						lights[i].intensity -= (lightStarts[i]*(1.0f/fadeTime))*Time.deltaTime;
 				}
 
 			}
@@ -137,8 +144,8 @@ public class GameController : MonoBehaviour {
 	// when the player's sanity reaches 0
 	private void triggerLoss(){
 		setRunning (false);
+		sanity.flickerControl = false;
 		lose = true;
-		findLights ();
 		lightStart = RenderSettings.ambientLight;
 		flashlightStart = flashlight.intensity;
 		winLoseText.text = "You Have Been Lost\nTo The Nightmare";
@@ -148,8 +155,8 @@ public class GameController : MonoBehaviour {
 
 	public void triggerWin(){
 		setRunning (false);
+		sanity.flickerControl = false;
 		win = true;
-		findLights ();
 		lightStart = RenderSettings.ambientLight;
 		flashlightStart = flashlight.intensity;
 		winLoseText.text = "You Have Found Your Way\nBack To Reality";
@@ -171,6 +178,7 @@ public class GameController : MonoBehaviour {
 		for(int i=0; i<lights.Length;i++){
 			lightStarts[i] = lights[i].intensity;
 		}
+
 	}
 
 }
