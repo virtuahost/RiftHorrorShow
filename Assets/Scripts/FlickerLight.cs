@@ -15,9 +15,12 @@ public class FlickerLight : MonoBehaviour {
 	// Controllable from the light control
 	public bool controllable;
 
+	private SanitySetterScript sanity;
+
 	void Awake(){
 		if(controllable)
 			gameObject.tag = "Controllable";
+		sanity = GameObject.Find ("sanitySetter").GetComponent<SanitySetterScript> ();
 	}
 
 	void Start(){
@@ -29,7 +32,7 @@ public class FlickerLight : MonoBehaviour {
 		light.enabled = true;
 		yield return new WaitForSeconds (Random.Range (delay - delay*(randomness/100.0f),delay + delay*(randomness/100.0f)));
 		light.enabled = false;
-		yield return new WaitForSeconds (Random.Range (delay - delay*(randomness/100.0f),delay + delay*(randomness/100.0f)));
+		yield return new WaitForSeconds (Random.Range ((delay - delay*(randomness/100.0f)),(delay + delay*(randomness/100.0f))));
 		StartCoroutine (flicker ());
 	}
 
