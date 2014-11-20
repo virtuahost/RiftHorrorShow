@@ -8,8 +8,12 @@ public class PlayerMovement : MonoBehaviour {
 	public float sprintSpeed;
 	public float acceleration;
 	public float deceleration;
-	public float gravity;
-
+	public float gravity;	
+	public GameObject monster;
+	public GameObject skeleton1;
+	public GameObject skeleton2;
+	public GameObject skeleton3;
+	public GameObject pumpkin;
 	// Mouse Sensitivity
 	[Range(0,10)]
 	public float mouseSensitivity;
@@ -174,6 +178,25 @@ public class PlayerMovement : MonoBehaviour {
 			PickUp p = trigger.gameObject.GetComponent<PickUp>();
 			inventory.addItem(p.id);
 			Destroy(trigger.gameObject);
+			monster.SetActive(true);
+			monster.audio.Play();
+			skeleton1.SetActive(true);
+			skeleton2.SetActive(true);
+			skeleton3.SetActive(true);
+			skeleton1.animation.Play("waitingforbattle");
+			skeleton1.audio.Play();
+			skeleton2.animation.Play("attack");
+			skeleton2.audio.Play();
+			skeleton3.animation.Play("dance");
+			skeleton3.audio.Play();
+			try{
+				pumpkin.SetActive(false);
+			}
+			catch(MissingReferenceException ex)
+			{
+
+			}
+			flashLight.enabled = false;
 		}
 
 	}
