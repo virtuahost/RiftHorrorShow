@@ -6,6 +6,7 @@ public class SanitySetterScript : MonoBehaviour {
 	
 	public List<GameObject> c;
 	public float sanity=100;
+	public Transform sanityBar;
 
 	public bool flickerControl;
 	public float delay;
@@ -24,8 +25,9 @@ public class SanitySetterScript : MonoBehaviour {
 	void Update () {
 	foreach(GameObject corr in c)
 		corr.GetComponent<ScaryCorridorBehaviour>().setSanity(sanity);
+	sanityBar.localScale = new Vector3(sanity/100,1,1);
 	}
-
+	
 	private void findControllableLights(){
 		List<Light> temp = new List<Light> ();
 		Light[] all = (Light[])GameObject.FindObjectsOfType(typeof(Light));
