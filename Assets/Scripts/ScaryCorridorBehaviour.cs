@@ -102,7 +102,7 @@ public class ScaryCorridorBehaviour : MonoBehaviour {
 
 	public void setSanity(float sanity){
 		bool playerEntered=roomTrigger.GetComponent<PlayerCheckerScript>().isPlayerInside;
-		if(playerEntered){
+		if(playerEntered && Mathf.Abs(currentSanity - sanity) > 20){
 			float seperation=Mathf.Clamp(sanity*initWallSeperation/(maxSanity-minSanity),2,initWallSeperation);		
 			Vector3 leftInitial = leftWall.localPosition;
 			Vector3 rightInitial = rightWall.localPosition;
@@ -110,6 +110,7 @@ public class ScaryCorridorBehaviour : MonoBehaviour {
 			Debug.Log(leftFinal);
 			
 			rightFinal = new Vector3(seperation/2, 0, 0);
+			currentSanity = sanity;
 			Debug.Log(rightFinal);
 			
 		}

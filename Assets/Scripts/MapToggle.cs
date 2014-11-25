@@ -18,7 +18,7 @@ public class MapToggle : MonoBehaviour {
 		}
 
 	void Update () {
-		if (Input.GetKeyUp(KeyCode.M)){
+		if (Input.GetKeyUp(KeyCode.Space)){
 			mapMode = !mapMode;
 		//	
 			MinimapQuad.SetActive(mapMode);
