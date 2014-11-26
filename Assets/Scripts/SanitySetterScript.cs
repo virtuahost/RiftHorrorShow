@@ -8,13 +8,17 @@ public class SanitySetterScript : MonoBehaviour {
 	public float sanity=100;
 	public float sanityDegen;
 	public float sanityRegen;
-	public Transform sanityBar;
+	public GUITexture sanityBar;
 	public bool flickerControl;
 	public float delay;
 
 	private Light[] lights;
 	private BlurController leftBlurController;
 	private BlurController rightBlurController;
+	private float initSanityWidth;
+	private float initSanityX;
+	private float initSanityY;
+	private float initSanityHeight;
 	// Use this for initialization
 	void Start () {
 		findControllableLights ();
@@ -23,13 +27,17 @@ public class SanitySetterScript : MonoBehaviour {
 		}
 		leftBlurController = GameObject.Find("CameraLeft").GetComponent<BlurController>();
 		rightBlurController = GameObject.Find("CameraRight").GetComponent<BlurController>();
+		initSanityX = sanityBar.pixelInset.x;
+		initSanityY = sanityBar.pixelInset.y;
+		initSanityWidth = sanityBar.pixelInset.width;
+		initSanityHeight = sanityBar.pixelInset.height;
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		foreach(GameObject corr in c)
 			corr.GetComponent<ScaryCorridorBehaviour>().setSanity(sanity);
-		sanityBar.localScale = new Vector3(sanity/100,1,1);
+		sanityBar.pixelInset = new Rect(initSanityX, initSanityY, (sanity/100)*initSanityWidth, initSanityHeight);
 		leftBlurController.sanity = sanity;
 		rightBlurController.sanity = sanity;
 		sanity+=(-sanityDegen + sanityRegen)*Time.deltaTime;
