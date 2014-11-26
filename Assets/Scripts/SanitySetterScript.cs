@@ -33,6 +33,8 @@ public class SanitySetterScript : MonoBehaviour {
 		leftBlurController.sanity = sanity;
 		rightBlurController.sanity = sanity;
 		sanity+=(-sanityDegen + sanityRegen)*Time.deltaTime;
+		
+		sanity = Mathf.Clamp(sanity , 0, 100);
 	
 	}
 	

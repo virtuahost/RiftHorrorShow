@@ -10,6 +10,7 @@ public class LockedDoorBehaviour : MonoBehaviour {
 	{
 		Animator animator=doorAnimator.GetComponent<Animator>();
 		Inventory inv=player.GetComponent<Inventory>();
+		
 		if(c.gameObject.tag=="player")
 		{
 			Vector3 playerDirection=transform.position-c.transform.position;
@@ -19,11 +20,21 @@ public class LockedDoorBehaviour : MonoBehaviour {
 				if(inv.hasItem(0))
 				{
 					animator.SetBool("openClock", true);
+				}else{
+					animator.SetBool("openLocked", true);
+					if(!doorAnimator.GetComponent<AudioSource>().isPlaying){
+						doorAnimator.GetComponent<AudioSource>().Play();
+					}
 				}
 			}else{
 				if(inv.hasItem(0))
 				{
 					animator.SetBool("openAntiClock", true);
+				}else{
+					animator.SetBool("openLocked", true);
+					if(!doorAnimator.GetComponent<AudioSource>().isPlaying){
+						doorAnimator.GetComponent<AudioSource>().Play();
+					}
 				}
 			}
 		}
