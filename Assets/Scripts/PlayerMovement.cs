@@ -26,7 +26,7 @@ public class PlayerMovement : MonoBehaviour {
 	private float currentMaxSpeed;
 
 	// Stamina for sprint
-	private float stamina;
+	public float stamina;
 	public float staminaRegenRate;
 	public float staminaUseRate;
 

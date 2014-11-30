@@ -3,5 +3,5 @@ using System.Collections;
 
 public class PickUp : MonoBehaviour {
 
-	public int id=2;
+	public int id;
 }
