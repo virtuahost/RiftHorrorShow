@@ -4,7 +4,7 @@ using System.Collections;
 
 public class SanitySetterScript : MonoBehaviour {
 	
-	public List<GameObject> c;
+	public GameObject[] c;
 	public float sanity=100;
 	public float sanityDegen;
 	public float sanityRegen;
@@ -31,6 +31,7 @@ public class SanitySetterScript : MonoBehaviour {
 		initSanityY = sanityBar.pixelInset.y;
 		initSanityWidth = sanityBar.pixelInset.width;
 		initSanityHeight = sanityBar.pixelInset.height;
+		c= GameObject.FindGameObjectsWithTag("collapsible");
 	}
 	
 	// Update is called once per frame

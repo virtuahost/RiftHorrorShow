@@ -6,6 +6,7 @@ public class PlayerMovement : MonoBehaviour {
 	// Speed/Acc settings
 	public float maxSpeed;
 	public float sprintSpeed;
+	public float dodgeSpeed;
 	public float acceleration;
 	public float deceleration;
 	public float gravity;	
@@ -23,13 +24,22 @@ public class PlayerMovement : MonoBehaviour {
 
 	// Usable maxspeed variable (changes depending on sprint)
 	private float currentMaxSpeed;
-	
+
+	// Stamina for sprint
+	private float stamina;
+	public float staminaRegenRate;
+	public float staminaUseRate;
+
+	// Spray Prefab
+	public GameObject sprayPrefab;
+
 	// Player Forward Direction
 	public Transform forwardTransform;
 
 	// Camera Controller transform and script
 	public Transform cameraControllerTransform;
 	public OVRCameraController cameraController;
+	public Transform leftEye;
 
 	// Character Controller
 	public CharacterController controller;
@@ -62,6 +72,7 @@ public class PlayerMovement : MonoBehaviour {
 		sanity = GameObject.Find ("sanitySetter").GetComponent<SanitySetterScript> ();
 		game = GameObject.Find ("GameController").GetComponent<GameController> ();
 		inventory = gameObject.GetComponent<Inventory> ();
+		stamina = 100.0f;
 	}
 	
 	// Update is called once per frame
@@ -75,6 +86,11 @@ public class PlayerMovement : MonoBehaviour {
 		if (Input.GetButtonDown ("Flashlight")) {
 			flashLight.enabled = !flashLight.enabled;
 		}
+
+		if (Input.GetButtonDown ("Fire1")) {
+			placeSpray ();
+		}
+
 	}
 	
 	// Physics Update
@@ -84,22 +100,35 @@ public class PlayerMovement : MonoBehaviour {
 			//After Mecanim
 			
 		if (game.isRunning()) {
-			animatePlayerLate();
+			//animatePlayerLate();
 			calculateMovement ();
 			movePlayer ();
 			//Before Mecanim
-			animatePlayerEarly ();
+			//animatePlayerEarly ();
 		}
 	}
 	
 	// Calculate the next movement with physics simulation
 	private void calculateMovement(){
 
-		// Set max speed based on sprint key
-		if(Input.GetButton ("Sprint"))
-			currentMaxSpeed = sprintSpeed;
-		else
+		// Set max speed based on sprint key and use/regenerate stamina
+		if(Input.GetButton ("Sprint")) {
+			if(stamina > 0.0f){
+				currentMaxSpeed = sprintSpeed;
+				stamina -= staminaUseRate * Time.deltaTime;
+				if(stamina < 0.0f) stamina = 0.0f;
+			}
+			else{
+				currentMaxSpeed = maxSpeed;
+			}
+		}
+		else {
 			currentMaxSpeed = maxSpeed;
+			stamina += staminaRegenRate * Time.deltaTime;
+			if(stamina > 100.0f) stamina = 100.0f;
+		}
+
+		//Debug.Log (stamina);
 
 		// Set current player velocity (vertical movement handled seperately)
 		nextMovement = controller.velocity;
@@ -109,13 +138,13 @@ public class PlayerMovement : MonoBehaviour {
 		bool moveV = false, moveH = false;
 
 		// Forward/Backward Movement
-		if (Input.GetButton ("Vertical")) {
+		if (Input.GetButton ("Vertical") && controller.isGrounded) {
 			moveV = true;
 			nextMovement += Input.GetAxis("Vertical") * forwardTransform.forward.normalized * acceleration * Time.deltaTime;
 		}
 
 		// Strafing
-		if (Input.GetButton ("Horizontal")) {
+		if (Input.GetButton ("Horizontal") && controller.isGrounded) {
 			moveH = true;
 			nextMovement += Input.GetAxis("Horizontal") * forwardTransform.right.normalized * horizontalAcceleration * Time.deltaTime;
 		}
@@ -125,7 +154,7 @@ public class PlayerMovement : MonoBehaviour {
 		nextRot = Input.GetAxis ("Mouse X") * mouseSensitivity;
 
 		// Deceleration
-		if (!moveV && !moveH) {
+		if ((!moveV && !moveH && controller.isGrounded) || !controller.isGrounded) {
 			if(controller.velocity.magnitude < .5f)
 				nextMovement = Vector3.zero;
 			else
@@ -133,15 +162,23 @@ public class PlayerMovement : MonoBehaviour {
 		}
 
 		// Keep Movement under max speed
-		if(nextMovement.magnitude > currentMaxSpeed){
+		if(nextMovement.magnitude > currentMaxSpeed && controller.isGrounded){
 			nextMovement *= (currentMaxSpeed/nextMovement.magnitude);
+		}
+
+		// Dodge
+		if (moveH && !moveV && Input.GetButtonDown ("Sprint")) {
+			Debug.Log("Dodge");
+			float dir = Input.GetAxis("Horizontal").CompareTo(0);
+			nextMovement = forwardTransform.right.normalized * dir * dodgeSpeed;
+			nextMovement.y = 3.0f;
 		}
 
 	}
 	
 	// Apply gravity and attempt movement with the player controller
 	private void movePlayer(){
-		nextMovement.y = controller.velocity.y - gravity * Time.deltaTime;
+		nextMovement.y -= gravity * Time.deltaTime;
 		prevLocation = transform.position;
 		controller.Move (nextMovement * Time.deltaTime);
 		transform.Rotate (0, nextRot, 0, Space.World);
@@ -176,27 +213,45 @@ public class PlayerMovement : MonoBehaviour {
 		// Pickup
 		if (trigger.tag == "PickUp") {
 			PickUp p = trigger.gameObject.GetComponent<PickUp>();
+			Debug.Log("Add:" + p.id);
 			inventory.addItem(p.id);
-			Destroy(trigger.gameObject);
-			monster.SetActive(true);
-			monster.audio.Play();
-			skeleton1.SetActive(true);
-			skeleton2.SetActive(true);
-			skeleton3.SetActive(true);
-			skeleton1.animation.Play("waitingforbattle");
-			skeleton1.audio.Play();
-			skeleton2.animation.Play("attack");
-			skeleton2.audio.Play();
-			skeleton3.animation.Play("dance");
-			skeleton3.audio.Play();
-			try{
-				pumpkin.SetActive(false);
-			}
-			catch(MissingReferenceException ex)
-			{
+			Destroy(trigger.gameObject, 0.1f);
+//			monster.SetActive(true);
+//			monster.audio.Play();
+//			skeleton1.SetActive(true);
+//			skeleton2.SetActive(true);
+//			skeleton3.SetActive(true);
+//			skeleton1.animation.Play("waitingforbattle");
+//			skeleton1.audio.Play();
+//			skeleton2.animation.Play("attack");
+//			skeleton2.audio.Play();
+//			skeleton3.animation.Play("dance");
+//			skeleton3.audio.Play();
+//			try{
+//				pumpkin.SetActive(false);
+//			}
+//			catch(MissingReferenceException ex)
+//			{
+//
+//			}
+//			flashLight.enabled = false;
+		}
 
+	}
+
+	private void placeSpray() {
+
+		//Debug.Log("spraying");
+
+		RaycastHit hit;
+		if(Physics.Raycast (leftEye.position, leftEye.forward, out hit,2.0f)){
+			//Debug.Log ("Hit Something");
+			if(hit.transform.gameObject.tag == "wall"){
+				//Debug.Log ("wall hit");
+				Vector3 newLocation = hit.point + hit.normal * .001f;
+				GameObject spray = GameObject.Instantiate(sprayPrefab,newLocation,Quaternion.LookRotation(hit.normal*-1)) as GameObject;
+				spray.transform.parent = hit.transform;
 			}
-			flashLight.enabled = false;
 		}
 
 	}

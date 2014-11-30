@@ -58,7 +58,6 @@ public class ScaryCorridorBehaviour : MonoBehaviour {
 			
 			leftWall.localPosition = Vector3.MoveTowards(leftWall.localPosition, leftFinal, wallSpeed*Time.deltaTime);
 			rightWall.localPosition = Vector3.MoveTowards(rightWall.localPosition, rightFinal, wallSpeed*Time.deltaTime);
-			Debug.Log(leftWall.localPosition +" "+ rightWall.localPosition);
 			soundRoom.localScale = new Vector3((rightWall.localPosition.x - leftWall.localPosition.x)/initWallSeperation , 1, 1);
 		}
 		if(!playerEntered)
@@ -107,11 +106,11 @@ public class ScaryCorridorBehaviour : MonoBehaviour {
 			Vector3 leftInitial = leftWall.localPosition;
 			Vector3 rightInitial = rightWall.localPosition;
 			leftFinal = new Vector3(-seperation/2, 0, 0);
-			Debug.Log(leftFinal);
+
 			
 			rightFinal = new Vector3(seperation/2, 0, 0);
 			currentSanity = sanity;
-			Debug.Log(rightFinal);
+
 			
 		}
 		

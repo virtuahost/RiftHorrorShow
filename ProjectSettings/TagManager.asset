@@ -14,6 +14,8 @@ TagManager:
   - PickUp
   - Escape
   - Controllable
+  - wall
+  - collapsible
   - 
   Builtin Layer 0: Default
   Builtin Layer 1: TransparentFX

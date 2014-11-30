@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Inventory : MonoBehaviour {
 
-	private bool[] inventory;
+	public bool[] inventory;
 
 	// Use this for initialization
 	void Start () {
