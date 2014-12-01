@@ -15,6 +15,7 @@ public class PlayerMovement : MonoBehaviour {
 	public GameObject skeleton2;
 	public GameObject skeleton3;
 	public GameObject pumpkin;
+
 	// Mouse Sensitivity
 	[Range(0,10)]
 	public float mouseSensitivity;
@@ -29,6 +30,7 @@ public class PlayerMovement : MonoBehaviour {
 	public float stamina;
 	public float staminaRegenRate;
 	public float staminaUseRate;
+	private float staminaX, staminaY, staminaHeight, staminaWidth;
 
 	// Spray Prefab
 	public GameObject sprayPrefab;
@@ -43,9 +45,6 @@ public class PlayerMovement : MonoBehaviour {
 
 	// Character Controller
 	public CharacterController controller;
-
-	// Flashlight
-	public Light flashLight;
 
 	// Flag for first initialization
 	private bool initialized = false;
@@ -65,6 +64,7 @@ public class PlayerMovement : MonoBehaviour {
 	// Inventory
 	Inventory inventory;
 
+
 	// Use this for initialization
 	void Start () {
 		horizontalAcceleration = 10;
@@ -73,6 +73,7 @@ public class PlayerMovement : MonoBehaviour {
 		game = GameObject.Find ("GameController").GetComponent<GameController> ();
 		inventory = gameObject.GetComponent<Inventory> ();
 		stamina = 100.0f;
+
 	}
 	
 	// Update is called once per frame
@@ -83,13 +84,11 @@ public class PlayerMovement : MonoBehaviour {
 			OVRCamera.ResetCameraPositionOrientation(Vector3.one, Vector3.zero, Vector3.up, Vector3.zero);
 		}
 
-		if (Input.GetButtonDown ("Flashlight")) {
-			flashLight.enabled = !flashLight.enabled;
-		}
-
 		if (Input.GetButtonDown ("Fire1")) {
 			placeSpray ();
 		}
+
+	
 
 	}
 	
@@ -168,7 +167,7 @@ public class PlayerMovement : MonoBehaviour {
 
 		// Dodge
 		if (moveH && !moveV && Input.GetButtonDown ("Sprint")) {
-			Debug.Log("Dodge");
+			//Debug.Log("Dodge");
 			float dir = Input.GetAxis("Horizontal").CompareTo(0);
 			nextMovement = forwardTransform.right.normalized * dir * dodgeSpeed;
 			nextMovement.y = 3.0f;
@@ -213,7 +212,7 @@ public class PlayerMovement : MonoBehaviour {
 		// Pickup
 		if (trigger.tag == "PickUp") {
 			PickUp p = trigger.gameObject.GetComponent<PickUp>();
-			Debug.Log("Add:" + p.id);
+			//Debug.Log("Add:" + p.id);
 			inventory.addItem(p.id);
 			Destroy(trigger.gameObject, 0.1f);
 //			monster.SetActive(true);

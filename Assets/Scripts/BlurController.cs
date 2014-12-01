@@ -26,65 +26,24 @@ public class BlurController : MonoBehaviour {
 		blur=gameObject.GetComponent<Blur>();
 		lastBlurTime = Time.time;
 		heartBeatSound = heartBeat.GetComponent<AudioSource>();
-//		StartCoroutine("pulseController");
 		texColor=screenBlur.color;
 	}
 	
 	// Update is called once per frame
 	void LateUpdate () {
-//		if(sanity < sanityThreshold){
-//			float currBlurRate = blurRate;
-//			currBlurTime = baseBlurTime * sanity;
-//			if(Time.time - lastBlurTime > currBlurTime )
-//			{	
-//				
-//				if(blurUp)
-//				{
-//					blur.blurSize+=(maxBlur - minBlur) * currBlurRate * Time.deltaTime;
-//					if(!heartBeatSound.isPlaying)
-//						heartBeatSound.Play();
-//				}
-//				else
-//				{
-//					blur.blurSize-=(maxBlur - minBlur) * currBlurRate * Time.deltaTime;
-//				}
-//				if(blur.blurSize > maxBlur)	blurUp =false;
-//				if(blur.blurSize < minBlur) {
-//					blurUp = true;
-//					lastBlurTime = Time.time;
-//					if(heartBeatSound.isPlaying)
-//						heartBeatSound.Stop();
-//				}
-//			}
-//			
-//		}else{
-//			blur.blurSize = minBlur;
-//		}
+
 		if(sanity < sanityThreshold)
 		{
 			currBlurTime = baseBlurTime * sanity;
 			if(Time.time - lastBlurTime > currBlurTime)
 			{	
 				if(!isRunning)
-					StartCoroutine("blurPulse");
+					oneShotPulse();
 				lastBlurTime=Time.time;
 			}
 		}
 	
 	}
-//	IEnumerator pulseController()
-//	{
-//		while(true)
-//		{
-//			if(sanity < sanityThreshold)
-//			{
-//				currBlurTime = baseBlurTime * sanity;
-//				StartCoroutine("blurPulse");
-//				yield return new WaitForSeconds(currBlurTime*1.5f);
-//				StopCoroutine("blurPulse");
-//			}
-//		}
-//	}
 	
 	IEnumerator blurPulse()
 	{
@@ -97,5 +56,10 @@ public class BlurController : MonoBehaviour {
 			yield return new WaitForSeconds(0.01f);
 		}
 		isRunning=false;
+	}
+	
+	public void oneShotPulse()
+	{
+		StartCoroutine("blurPulse");
 	}
 }

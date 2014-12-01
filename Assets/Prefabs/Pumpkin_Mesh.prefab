@@ -8,12 +8,11 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 400000}
-  - 195: {fileID: 19500000}
-  - 114: {fileID: 11400000}
-  - 135: {fileID: 13500000}
   - 54: {fileID: 5400002}
   - 95: {fileID: 9500002}
   - 111: {fileID: 11100000}
+  - 114: {fileID: 11400000}
+  - 136: {fileID: 13600000}
   m_Layer: 0
   m_Name: Pumpkin_Mesh
   m_TagString: Untagged
@@ -79,7 +78,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 61.0800247, y: .0481996536, z: 46.5782928}
+  m_LocalPosition: {x: 42.958725, y: 0, z: 34.3271484}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400006}
@@ -321,18 +320,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 100000}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 74d5eec9c8c4fc74c90f57870cdf6490, type: 3}
+  m_Script: {fileID: 11500000, guid: bac699c48e30d6544b6b11de67623ca0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: .100000001
-  SecondsUntilDestroy: 10
+  moveSpeed: 2
   player: {fileID: 0}
   laughAudio: {fileID: 100006}
-  lightPumpkin: {fileID: 100004}
-  pumpkin: {fileID: 100002}
-  startAnime: {fileID: 11100000}
---- !u!135 &13500000
-SphereCollider:
+  game: {fileID: 0}
+  sanitySetter: {fileID: 0}
+--- !u!136 &13600000
+CapsuleCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
@@ -340,29 +337,10 @@ SphereCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: .699999988
-  m_Center: {x: 0, y: 1.70000005, z: 0}
---- !u!195 &19500000
-NavMeshAgent:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100000}
-  m_Enabled: 1
   m_Radius: .5
-  m_Speed: 1
-  m_Acceleration: 5
-  avoidancePriority: 50
-  m_AngularSpeed: 120
-  m_StoppingDistance: 0
-  m_AutoTraverseOffMeshLink: 0
-  m_AutoBraking: 0
-  m_AutoRepath: 1
-  m_Height: 2
-  m_BaseOffset: 0
-  m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
+  m_Height: 5
+  m_Direction: 1
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

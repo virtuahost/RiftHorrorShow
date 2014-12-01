@@ -1,7 +1,7 @@
 fileFormatVersion: 2
 guid: 86c591ebd74142c4d93243d9fa9544da
 ModelImporter:
-  serializedVersion: 16
+  serializedVersion: 15
   fileIDToRecycleName:
     100000: R_Forearm
     100002: R_Shoulder
@@ -325,5 +325,4 @@ ModelImporter:
     rootMotionBoneName: 
   lastHumanDescriptionAvatarSource: {instanceID: 0}
   animationType: 1
-  additionalBone: 0
   userData: 
