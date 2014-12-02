@@ -43,69 +43,97 @@ public class SkeletonController : MonoBehaviour {
 			float dist=(player.position - transform.position).magnitude;	
 			if(inAttackRange && inAttackSight && dist < 7)
 			{//Debug.Log("In Sght");
-				if(isFollowPlayer && this.animation.IsPlaying("run"))
+				if(!isStatic)
 				{
-					agent.Stop();
-					this.animation.Stop("run");
-					this.animation.Play("waitingforbattle");
-				}
-				if(dist<3 && isUseFlameThrower)
-				{//Debug.Log("In Flamethrower");
-					if(orbAttackAudio.audio.isPlaying)orbAttackAudio.audio.Stop();
-					if(!flameParticle.isPlaying){flameParticle.Play();}	
-					if(!flameAttackAudio.audio.isPlaying)flameAttackAudio.audio.Play();
-					if(!this.animation.isPlaying)
-					{						
-						if(this.transform.forward != player.transform.forward)this.transform.LookAt(player.transform.position);
-						this.animation.Play("idle");
-					}
-					/*else
+					if(isFollowPlayer && this.animation.IsPlaying("run"))
 					{
-						this.animation.Stop();
-						if(dist>2)this.transform.LookAt(player.transform.position);
-						this.animation.Play("idle");
-					}*/
-				}
-				else if(isUseFlameThrower && isStatic && !isUseFlameOrbs)
-				{//Debug.Log("In Oh no");
-					if(orbAttackAudio.audio.isPlaying)orbAttackAudio.audio.Stop();
-					if(!flameParticle.isPlaying){flameParticle.Play();}
-					if(!flameAttackAudio.audio.isPlaying)flameAttackAudio.audio.Play();
-					if(!this.animation.isPlaying)
-					{						
-						if(dist>2)this.transform.LookAt(player.transform.position);
-						this.animation.Play("idle");
+						agent.Stop();
+						this.animation.Stop("run");
+						this.animation.Play("waitingforbattle");
 					}
-					/*else
-					{
-						this.animation.Stop();
-						if(dist>2)this.transform.LookAt(player.transform.position);
-						this.animation.Play("idle");
-					}*/
+					if(dist<3 && isUseFlameThrower)
+					{//Debug.Log("In Flamethrower");
+						if(orbAttackAudio.audio.isPlaying)orbAttackAudio.audio.Stop();
+						if(!flameParticle.isPlaying){flameParticle.Play();}	
+						if(!flameAttackAudio.audio.isPlaying)flameAttackAudio.audio.Play();
+						if(!this.animation.isPlaying)
+						{						
+							if(this.transform.forward != player.transform.forward)this.transform.LookAt(player.transform.position);
+							this.animation.Play("idle");
+						}
+						/*else
+						{
+							this.animation.Stop();
+							if(dist>2)this.transform.LookAt(player.transform.position);
+							this.animation.Play("idle");
+						}*/
+					}
+					else if(isUseFlameThrower && isStatic && !isUseFlameOrbs)
+					{//Debug.Log("In Oh no");
+						if(orbAttackAudio.audio.isPlaying)orbAttackAudio.audio.Stop();
+						if(!flameParticle.isPlaying){flameParticle.Play();}
+						if(!flameAttackAudio.audio.isPlaying)flameAttackAudio.audio.Play();
+						if(!this.animation.isPlaying)
+						{						
+							if(dist>2)this.transform.LookAt(player.transform.position);
+							this.animation.Play("idle");
+						}
+						/*else
+						{
+							this.animation.Stop();
+							if(dist>2)this.transform.LookAt(player.transform.position);
+							this.animation.Play("idle");
+						}*/
+					}
+					else if(isUseFlameOrbs && Time.time - lastAttackTime > 2)
+					{//Debug.Log("In FlameOrb");
+						if(flameParticle.isPlaying)flameParticle.Stop();	
+						if(flameAttackAudio.audio.isPlaying)flameAttackAudio.audio.Stop();
+						if(!this.animation.isPlaying)
+						{						
+							lastAttackTime = Time.time;
+							if(dist>1)this.transform.LookAt(player.transform.position);
+							this.animation.Play("attack");	
+							Vector3 direction = player.transform.position - throwPoint.position;
+							GameObject orb = Instantiate(orbParticle,throwPoint.position,Quaternion.identity) as GameObject;
+							orb.rigidbody.AddForce(direction.normalized*throwForce);
+						}
+						/*else
+						{
+							if(this.animation.IsPlaying("idle"))
+							{
+								this.animation.Stop();
+								if(dist>1)this.transform.LookAt(player.transform.position);
+								this.animation.Play("attack");
+							}
+						}*/
+						if(!orbAttackAudio.audio.isPlaying)orbAttackAudio.audio.Play();
+					}
 				}
-				else if(isUseFlameOrbs && Time.time - lastAttackTime > 2)
-				{//Debug.Log("In FlameOrb");
-					if(flameParticle.isPlaying)flameParticle.Stop();	
-					if(flameAttackAudio.audio.isPlaying)flameAttackAudio.audio.Stop();
-					if(!this.animation.isPlaying)
-					{						
+				else
+				{
+					if(dist<3 && isUseFlameThrower)
+					{//Debug.Log("In Flamethrower");
+						if(orbAttackAudio.audio.isPlaying)orbAttackAudio.audio.Stop();
+						if(!flameParticle.isPlaying){flameParticle.Play();}	
+						if(!flameAttackAudio.audio.isPlaying)flameAttackAudio.audio.Play();						
+					}
+					else if(isUseFlameThrower && isStatic && !isUseFlameOrbs)
+					{//Debug.Log("In Oh no");
+						if(orbAttackAudio.audio.isPlaying)orbAttackAudio.audio.Stop();
+						if(!flameParticle.isPlaying){flameParticle.Play();}
+						if(!flameAttackAudio.audio.isPlaying)flameAttackAudio.audio.Play();						
+					}
+					else if(isUseFlameOrbs && Time.time - lastAttackTime > 2)
+					{//Debug.Log("In FlameOrb");
+						if(flameParticle.isPlaying)flameParticle.Stop();	
+						if(flameAttackAudio.audio.isPlaying)flameAttackAudio.audio.Stop();
 						lastAttackTime = Time.time;
-						if(dist>1)this.transform.LookAt(player.transform.position);
-						this.animation.Play("attack");	
 						Vector3 direction = player.transform.position - throwPoint.position;
 						GameObject orb = Instantiate(orbParticle,throwPoint.position,Quaternion.identity) as GameObject;
 						orb.rigidbody.AddForce(direction.normalized*throwForce);
-					}
-					/*else
-					{
-						if(this.animation.IsPlaying("idle"))
-						{
-							this.animation.Stop();
-							if(dist>1)this.transform.LookAt(player.transform.position);
-							this.animation.Play("attack");
-						}
-					}*/
-					if(!orbAttackAudio.audio.isPlaying)orbAttackAudio.audio.Play();
+						if(!orbAttackAudio.audio.isPlaying)orbAttackAudio.audio.Play();
+					}				
 				}
 			}
 			else if(inAttackRange)
@@ -123,14 +151,14 @@ public class SkeletonController : MonoBehaviour {
 						this.animation.Play("run");
 					}
 				}
-				else
+				/*else
 				{
 					if(!this.animation.isPlaying)
 					{						
 						if(dist>1)this.transform.LookAt(player.transform.position);
 						this.animation.Play("waitingforbattle");
 					}
-				}
+				}*/
 			}
 		}
 	}
