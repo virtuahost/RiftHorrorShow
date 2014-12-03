@@ -51,7 +51,7 @@ public class BlurController : MonoBehaviour {
 		if(!heartBeatSound.isPlaying)
 			heartBeatSound.Play();
 		for(float t=0 ; t<1.0 ; t+=blurRate*Time.deltaTime){
-			screenBlur.color = new Color(128, 128, 128, blurCurve.Evaluate(t));
+			screenBlur.color = new Color(128, 128, 128, blurCurve.Evaluate(t)*3);
 			blur.blurSize = blurCurve.Evaluate(t)*20;
 			yield return new WaitForSeconds(0.01f);
 		}

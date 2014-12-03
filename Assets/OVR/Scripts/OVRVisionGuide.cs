@@ -96,8 +96,8 @@ public class OVRVisionGuide : MonoBehaviour
 		if (Input.GetKeyDown(KeyCode.T))
 			CameraController.TimeWarp = !CameraController.TimeWarp;
 		
-		if (Input.GetKeyDown(KeyCode.F))
-			CameraController.FreezeTimeWarp = !CameraController.FreezeTimeWarp;
+		//if (Input.GetKeyDown(KeyCode.F))
+			//CameraController.FreezeTimeWarp = !CameraController.FreezeTimeWarp;
 	}
 
 	/// <summary>

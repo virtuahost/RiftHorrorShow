@@ -14,6 +14,8 @@ public class SkeletonController : MonoBehaviour {
 	public GameObject orbParticle;
 	public float chkDist = 10f;
 	public float throwForce;
+	public float flameThrowerInterval;
+	
 	private SanitySetterScript sanity;
 	private NavMeshAgent agent;
 	public Animation startAnime;
@@ -22,6 +24,7 @@ public class SkeletonController : MonoBehaviour {
 	private float lastAttackTime = 0f;
 	private bool inAttackRange = false;
 	private bool inAttackSight = false;
+	private float lastFlameTime;
 	// Use this for initialization
 	void Start () {
 		game = GameObject.Find ("GameController").GetComponent<GameController> ();
@@ -34,6 +37,7 @@ public class SkeletonController : MonoBehaviour {
 		sanity = GameObject.Find ("sanitySetter").GetComponent<SanitySetterScript> ();
 		if(flameParticle.isPlaying)flameParticle.Stop();
 		this.transform.LookAt(player.transform.position);
+		lastFlameTime=Time.time;
 	}
 	
 	// Update is called once per frame
@@ -71,7 +75,12 @@ public class SkeletonController : MonoBehaviour {
 					else if(isUseFlameThrower && isStatic && !isUseFlameOrbs)
 					{//Debug.Log("In Oh no");
 						if(orbAttackAudio.audio.isPlaying)orbAttackAudio.audio.Stop();
-						if(!flameParticle.isPlaying){flameParticle.Play();}
+						if(!flameParticle.isPlaying){
+							if(Time.time - lastFlameTime > flameThrowerInterval){
+								flameParticle.Play();
+								lastFlameTime=Time.time;
+							}
+						}
 						if(!flameAttackAudio.audio.isPlaying)flameAttackAudio.audio.Play();
 						if(!this.animation.isPlaying)
 						{						

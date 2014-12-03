@@ -63,6 +63,11 @@ public class PlayerMovement : MonoBehaviour {
 
 	// Inventory
 	Inventory inventory;
+	
+	//Heal for key
+	private float totalHeal=0;
+	private bool healed=false;
+	private float healAmount=70;
 
 
 	// Use this for initialization
@@ -87,7 +92,14 @@ public class PlayerMovement : MonoBehaviour {
 		if (Input.GetButtonDown ("Fire1")) {
 			placeSpray ();
 		}
-
+		if (game.isRunning()) {
+			//animatePlayerLate();
+			calculateMovement ();
+			movePlayer ();
+			//Before Mecanim
+			//animatePlayerEarly ();
+		}
+		
 	
 
 	}
@@ -98,13 +110,7 @@ public class PlayerMovement : MonoBehaviour {
 	void LateUpdate() {
 			//After Mecanim
 			
-		if (game.isRunning()) {
-			//animatePlayerLate();
-			calculateMovement ();
-			movePlayer ();
-			//Before Mecanim
-			//animatePlayerEarly ();
-		}
+
 	}
 	
 	// Calculate the next movement with physics simulation
@@ -215,6 +221,7 @@ public class PlayerMovement : MonoBehaviour {
 			//Debug.Log("Add:" + p.id);
 			inventory.addItem(p.id);
 			Destroy(trigger.gameObject, 0.1f);
+			StartCoroutine("healPlayer");
 //			monster.SetActive(true);
 //			monster.audio.Play();
 //			skeleton1.SetActive(true);
@@ -253,6 +260,23 @@ public class PlayerMovement : MonoBehaviour {
 			}
 		}
 
+	}
+	
+	IEnumerator healPlayer()
+	{
+		while(!healed)
+		{
+			sanity.sanity+=5*Time.deltaTime;
+			totalHeal+=5*Time.deltaTime;
+			Debug.Log("healing!!!");
+			if(totalHeal > healAmount)
+			{
+				healed=true;
+				Debug.Log ("healed!!");
+			}
+			yield return null;
+		}
+		
 	}
 	
 }

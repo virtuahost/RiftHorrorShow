@@ -31,7 +31,6 @@ public class GUIManager : MonoBehaviour {
 		for( int barCtr=0; barCtr<bars.Length ;barCtr++)
 		{
 			bars[barCtr].pixelInset=new Rect(barRects[barCtr].x, barRects[barCtr].y, (measures[barCtr]/100)*barRects[barCtr].width, barRects[barCtr].height);
-			Debug.Log(measures[barCtr]);
 		}
 	}
 }
