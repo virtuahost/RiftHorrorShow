@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class ProjectileAction : MonoBehaviour {
-	public float damageVal = 5.0f;
+	public float damageVal = 3.0f;
 	private Transform player;
 	private SanitySetterScript sanity;
 	public GameObject leftCam;
