@@ -167,14 +167,14 @@ public class SkeletonController : MonoBehaviour {
 						}
 					}
 				}
-				/*else
+				else
 				{
 					if(!this.animation.isPlaying)
 					{						
-						if(dist>1)this.transform.LookAt(player.transform.position);
-						this.animation.Play("waitingforbattle");
+						if(dist>1)this.transform.LookAt(new Vector3(player.position.x, transform.position.y, player.position.z));;
+						//this.animation.Play("waitingforbattle");
 					}
-				}*/
+				}
 			}
 		}
 	}
