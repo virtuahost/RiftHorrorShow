@@ -45,25 +45,29 @@ public class SkeletonController : MonoBehaviour {
 		if (game.isRunning ()) {
 			
 			float dist=(player.position - transform.position).magnitude;	
-			if(inAttackRange && inAttackSight && dist < 7)
+			if(inAttackRange && inAttackSight && dist < chkDist)
 			{//Debug.Log("In Sght");
-				if(!isStatic)
-				{
+				//if(!isStatic)
+				//{
 					if(isFollowPlayer && this.animation.IsPlaying("run"))
 					{
-						agent.Stop();
+						agent.Stop(true);
 						this.animation.Stop("run");
-						this.animation.Play("waitingforbattle");
+						//this.animation.Play("waitingforbattle");
 					}
 					if(dist<3 && isUseFlameThrower)
 					{//Debug.Log("In Flamethrower");
 						if(orbAttackAudio.audio.isPlaying)orbAttackAudio.audio.Stop();
 						if(!flameParticle.isPlaying){flameParticle.Play();}	
 						if(!flameAttackAudio.audio.isPlaying)flameAttackAudio.audio.Play();
-						if(!this.animation.isPlaying)
+						Vector3 lookAtVector = player.position - transform.position;
+						Vector3 lookAtVectorNoY = new Vector3(lookAtVector.x, transform.position.y, lookAtVector.z);
+						Vector3 lookAtVectorLerp = Vector3.RotateTowards(transform.forward, lookAtVectorNoY, 0.5f * Time.deltaTime, 0.0f);
+						this.transform.rotation = Quaternion.LookRotation(lookAtVectorLerp);
+					if(!this.animation.isPlaying)
 						{						
-							if(this.transform.forward != player.transform.forward)this.transform.LookAt(player.transform.position);
-							this.animation.Play("idle");
+						
+							this.animation.Play("waitingforbattle");//this.animation.Play("idle");
 						}
 						/*else
 						{
@@ -85,7 +89,7 @@ public class SkeletonController : MonoBehaviour {
 						if(!this.animation.isPlaying)
 						{						
 							if(dist>2)this.transform.LookAt(player.transform.position);
-							this.animation.Play("idle");
+							this.animation.Play("waitingforbattle");//this.animation.Play("idle");
 						}
 						/*else
 						{
@@ -101,9 +105,9 @@ public class SkeletonController : MonoBehaviour {
 						if(!this.animation.isPlaying)
 						{						
 							lastAttackTime = Time.time;
-							if(dist>1)this.transform.LookAt(player.transform.position);
+							if(dist>1)this.transform.LookAt(new Vector3(player.position.x, transform.position.y, player.position.z));
 							this.animation.Play("attack");	
-							Vector3 direction = player.transform.position - throwPoint.position;
+						Vector3 direction = (player.transform.position + (player.GetComponent<CharacterController>().velocity * Random.Range(0,player.GetComponent<CharacterController>().velocity.magnitude))) - throwPoint.position;
 							GameObject orb = Instantiate(orbParticle,throwPoint.position,Quaternion.identity) as GameObject;
 							orb.rigidbody.AddForce(direction.normalized*throwForce);
 						}
@@ -118,7 +122,7 @@ public class SkeletonController : MonoBehaviour {
 						}*/
 						if(!orbAttackAudio.audio.isPlaying)orbAttackAudio.audio.Play();
 					}
-				}
+				/*}
 				else
 				{
 					if(dist<3 && isUseFlameThrower)
@@ -143,7 +147,7 @@ public class SkeletonController : MonoBehaviour {
 						orb.rigidbody.AddForce(direction.normalized*throwForce);
 						if(!orbAttackAudio.audio.isPlaying)orbAttackAudio.audio.Play();
 					}				
-				}
+				}*/
 			}
 			else if(inAttackRange)
 			{//Debug.Log("Should not be here");
@@ -155,9 +159,12 @@ public class SkeletonController : MonoBehaviour {
 					if(isFollowPlayer)
 					{
 						if(!this.audio.isPlaying)this.audio.Play();
-						Vector3 newVector = new Vector3 (player.position.x, this.transform.position.y, player.position.z);
-						agent.SetDestination (newVector);
-						this.animation.Play("run");
+						Vector3 newVector = new Vector3 (player.position.x, this.transform.position.y, player.position.z);						
+						if(!this.animation.isPlaying)
+						{
+							this.animation.Play("run");
+							agent.SetDestination (newVector);
+						}
 					}
 				}
 				/*else
@@ -202,6 +209,8 @@ public class SkeletonController : MonoBehaviour {
 			if(isFollowPlayer)
 			{
 				agent.Stop();
+				this.animation.Stop("run");
+				this.animation.Play("waitingforbattle");
 			}
 		}
 	}

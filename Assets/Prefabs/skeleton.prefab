@@ -80,8 +80,7 @@ GameObject:
   - 135: {fileID: 13500002}
   - 195: {fileID: 19500000}
   - 136: {fileID: 13600002}
-  - 54: {fileID: 5400006}
-  - 114: {fileID: 11400008}
+  - 54: {fileID: 5400008}
   m_Layer: 0
   m_Name: skeleton
   m_TagString: Untagged
@@ -791,7 +790,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100008}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 50.9632187, y: -1.69387817, z: 95.1052094}
+  m_LocalPosition: {x: 177.776764, y: 0, z: 32.8970451}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 400074}
@@ -1401,7 +1400,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!54 &5400006
+--- !u!54 &5400008
 Rigidbody:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -1715,18 +1714,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f14823e6270b7664d9d7910bac20b67c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isStatic: 1
+  isStatic: 0
   isUseFlameThrower: 1
   isUseFlameOrbs: 1
-  isFollowPlayer: 0
+  isFollowPlayer: 1
   player: {fileID: 0}
   throwPoint: {fileID: 400092}
   orbAttackAudio: {fileID: 100088}
   flameAttackAudio: {fileID: 100086}
   flameParticle: {fileID: 19800000}
   orbParticle: {fileID: 100000, guid: 0a4533fed1b476940985862a746b1820, type: 2}
-  chkDist: 10
-  throwForce: 100
+  chkDist: 5
+  throwForce: 300
+  flameThrowerInterval: 0
   startAnime: {fileID: 0}
 --- !u!114 &11400002
 MonoBehaviour:
@@ -1768,19 +1768,6 @@ MonoBehaviour:
   damageVal: 5
   leftCam: {fileID: 0}
   rightCam: {fileID: 0}
---- !u!114 &11400008
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100008}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 803cff6af3c6fc3488d38bc16c2e150b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  wall: {fileID: 0}
-  leftWall: 1
 --- !u!135 &13500000
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -1803,7 +1790,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 10
+  m_Radius: 5
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!135 &13500004
 SphereCollider:
@@ -1918,7 +1905,7 @@ NavMeshAgent:
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
-  m_StoppingDistance: .800000012
+  m_StoppingDistance: 1.5
   m_AutoTraverseOffMeshLink: 0
   m_AutoBraking: 1
   m_AutoRepath: 1
@@ -1939,7 +1926,7 @@ ParticleSystem:
   looping: 1
   prewarm: 0
   playOnAwake: 0
-  moveWithTransform: 1
+  moveWithTransform: 0
   InitialModule:
     enabled: 1
     startLifetime:
@@ -2169,7 +2156,7 @@ ParticleSystem:
         m_PostInfinity: 2
       minMaxState: 0
     gravityModifier: 0
-    inheritVelocity: 0
+    inheritVelocity: 1
     maxNumParticles: 350
   ShapeModule:
     serializedVersion: 2
